@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Tank/Tank.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Player.gd" type="Script" id=2]
+
+[node name="Player" instance=ExtResource( 1 )]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource( 2 )
+ANGULAR_ACCELERATION = 9.8
+
+[node name="BaseColor" parent="TankSprite" index="0"]
+color = Color( 0, 0, 0.392157, 1 )
+
+[node name="Gun" parent="TankSprite" index="1"]
+color = Color( 0, 0, 1, 1 )

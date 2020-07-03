@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Tank/Tank Base.png" type="Texture" id=1]
+[ext_resource path="res://Tank/Tank Gun.png" type="Texture" id=2]
+[ext_resource path="res://Tank/Tank.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveForward"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("TankSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[node name="Tank" type="KinematicBody2D"]
+collision_layer = 4
+script = ExtResource( 3 )
+
+[node name="TankSprite" type="Sprite" parent="."]
+position = Vector2( 0, 2 )
+texture = ExtResource( 1 )
+hframes = 3
+frame = 1
+
+[node name="BaseColor" type="ColorRect" parent="TankSprite"]
+margin_left = -5.0
+margin_top = -10.0
+margin_right = 5.0
+margin_bottom = 6.0
+rect_pivot_offset = Vector2( 5, 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gun" type="ColorRect" parent="TankSprite"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -19.0
+margin_top = -19.0
+margin_right = -13.0
+margin_bottom = -13.0
+rect_pivot_offset = Vector2( 3, 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TankGun" type="Sprite" parent="TankSprite/Gun"]
+position = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/MoveForward = SubResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PoolVector2Array( -10, -12, -5, -12, -5, -9, 5, -9, 5, -12, 10, -12, 10, 10, 5, 10, 5, 9, -5, 9, -5, 10, -10, 10 )
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( -10, -12, -5, -12, -5, -9, 5, -9, 5, -12, 10, -12, 10, 10, 5, 10, 5, 9, -5, 9, -5, 10, -10, 10 )
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
